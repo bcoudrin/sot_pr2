@@ -54,8 +54,8 @@ Pr2Device::setSensors(SensorMap &sensorsIn) {
             state_(i+6) = anglesIn[i];
     }
     // RobotState
-    //mlRobotState.resize(anglesIn.size() + 6);
-    /*for (unsigned i=0; i<6; ++i)
+    /*mlRobotState.resize(anglesIn.size() + 6);
+    for (unsigned i=0; i<6; ++i)
         mlRobotState(i) = 0.;
     updateRobotState(anglesIn);*/
 
@@ -108,8 +108,8 @@ Pr2Device::getControl(ControlMap &controlOut) {
     velocitiesOut.resize(state_.size());
 
     try { increment(timestep_); }
-    catch (...) {
-        //std::cout << "Increment error (" << loop_count_ << ") (" << controlSIN << ")" << std::endl;
+    catch (std::exception & e) {
+        std::cerr <<" Pr2Device::getControl " <<  e.what()  << std::endl;
     }
      //++loop_count_;
 

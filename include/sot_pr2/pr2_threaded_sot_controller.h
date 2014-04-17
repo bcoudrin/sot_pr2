@@ -7,14 +7,16 @@
 
 namespace sot_pr2 {
 
-class Pr2SotController : public dynamicgraph::sot::AbstractSotExternalInterface
+class Pr2ThreadedSotController : public dynamicgraph::sot::AbstractSotExternalInterface
 {
 public:
     static const std::string LOG_PYTHON;
 
 public:
-    explicit Pr2SotController();
-    virtual ~Pr2SotController();
+    explicit Pr2ThreadedSotController();
+    virtual ~Pr2ThreadedSotController();
+
+    void init();
 
     void setupSetSensors(SensorMap &sensorsIn);
     void nominalSetSensors(SensorMap &sensorsIn);
@@ -26,8 +28,6 @@ public:
     ros::NodeHandle node_;
 
 protected:
-    void updateRobotState(std::vector<double> &anglesIn);
-
     void runPython(std::ostream &file,
                    const std::string &command,
                    dynamicgraph::Interpreter &interpreter);
@@ -36,6 +36,14 @@ protected:
 
 private:
     Pr2Device device_;
+
+    SensorMap _holdIn;
+    ControlMap _holdOut;
+
+public:
+    Pr2Device *device() {return &device_;}
+    SensorMap &holdIn() {return _holdIn;}
+    ControlMap &holdOut() {return _holdOut;}
 };
 
 }
